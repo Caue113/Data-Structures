@@ -82,6 +82,7 @@ void transverse_ll(linkedList* addr){
 
 /**
  * Removes a node given an indes from head.
+ * @test Passing 
  * @todo Test with 0, 1 and 2 nodes.
 */
 void ll_remove_at(linkedList *linkedList, int index){
@@ -123,6 +124,31 @@ void ll_remove_at(linkedList *linkedList, int index){
 }
 
 /**
+ * Removes the last node.
+ * For single linked lists, there is a need to O(n) to find the n-1 node and update tail.
+*/
+void ll_remove(linkedList *linkedList){
+    if(!linkedList->tail){
+        printf("[ll_remove]Linked List is empty\n");
+    }
+    else{
+        node *current = linkedList->head;
+        while(current->next->next){
+            current = current->next;
+        }
+
+        printf("[ll_remove]Checking: current must equal tail\n");
+        printf("[ll_remove]current: %p\t Tail: %p", current, linkedList->tail);
+    
+        //If all goes fine, this if is uselses
+        if(current){
+            current->next = NULL;
+            linkedList->tail = current;
+        }
+    }
+}
+
+/**
  * Inserts a node in the end of the linked list
 */
 void ll_insert(linkedList *linkedList, node *newNode){
@@ -130,6 +156,7 @@ void ll_insert(linkedList *linkedList, node *newNode){
     if(linkedList->head == NULL){
         printf("[ll_insert] LinkedList is empty. Pushing to head.\n");
         linkedList->head = newNode;
+        linkedList->tail = newNode;
     }
     else{
         printf("[ll_insert] running push\n");
@@ -140,6 +167,7 @@ void ll_insert(linkedList *linkedList, node *newNode){
         }
         printf("[ll_insert] the node is %p with %d\n", current, current->data);
         current->next = newNode;
+        linkedList->tail = newNode;
     }
 }
 
@@ -150,6 +178,7 @@ void ll_insert_begin(linkedList *linkedList, node *newNode){
     if(linkedList->head == NULL){
         printf("[ll_insert_begin] LinkedList is empty. Pushing to head.\n");
         linkedList->head = newNode;
+        linkedList->tail = newNode;
     }
     else{
         printf("[ll_insert_begin] Inserting node at beggining.\n");
@@ -167,6 +196,7 @@ void ll_insert_before(linkedList *linkedList, int checkValue, node *newNode){
      if(!linkedList->head){
         printf("[ll_insert_before] LinkedList is empty. Pushing to head.\n");
         linkedList->head = newNode;
+        linkedList->tail = newNode;
     }
     else{
         printf("[ll_insert_before] Inserting node before\n");
@@ -218,9 +248,9 @@ int main(int argc, char const *argv[])
 
     printf("Test function? Y/N - ");
     char opt[1];
-    scanf("%s",&opt);
+    /* scanf("%s",&opt); */
 
-    if(strcmp(opt, "Y") == 0){
+    /* if(strcmp(opt, "Y") == 0){ */
 
         /* ALWAYS INITALIZE WHATEVER STRUCT YOU HAVE TO SOME VALUE OR NULL */
         linkedList ll_1 = {NULL};
@@ -251,6 +281,17 @@ int main(int argc, char const *argv[])
         ll_insert_before(&ll_1, 2222, &n5); //Should be placed before n6. E.g: etc, 111111, 2222
         transverse_ll(&ll_1);
         ll_remove_at(&ll_1, 2); //Should remove n3
+        transverse_ll(&ll_1);
+        ll_remove(&ll_1);       //Should remove n6 (2222);
+        transverse_ll(&ll_1);
+        printf("%p, %d", ll_1.tail, ll_1.tail->data);
+        ll_remove(&ll_1);       
+        transverse_ll(&ll_1);
+        ll_remove(&ll_1);       
+        transverse_ll(&ll_1);
+        ll_remove(&ll_1);       
+        transverse_ll(&ll_1);
+        ll_remove(&ll_1);          //Should throw exception and not run
         transverse_ll(&ll_1);
 
         /* print_node(&n1); */
@@ -293,6 +334,6 @@ int main(int argc, char const *argv[])
 
         transverse_ll(&ll_2);
  */
-    }
+    /* } */
     return 0;
 }
