@@ -15,6 +15,18 @@ Inside them, different files will be found, such as:
 - Js files. For high level studies
 - Markdown notes.
 
+# To do
+- [ ] Array
+- [x] Vector (Dynamic Array)
+- [x] Linked List
+- [ ] Stack
+- [ ] Queue
+- [ ] HashTable
+- [ ] Tree
+  - [ ] Binary Tree
+- [ ] Graph
+- [ ] Heap
+
 # Tests
 
 ## C Files
