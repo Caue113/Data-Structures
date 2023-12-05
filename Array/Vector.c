@@ -5,17 +5,17 @@ typedef struct Vector_int{
     int *values;
     int length;     //N. elements
     int capacity;
-    int (*find)();
-    void (*insert)();
-    void (*insertAt)();
-    void (*insertBegin)();
-    void (*delete)();
-    void (*deleteAt)();
-    void (*deleteBegin)();
-    void (*resize)();
-    int (*isEmpty)();
+    int (*find)(Vector_int *vector, int value);
+    void (*insert)(Vector_int *vector, int value);
+    void (*insertAt)(Vector_int *vector, int index, int value);
+    void (*insertBegin)(Vector_int *vector, int value);
+    void (*delete)(Vector_int *vector);
+    void (*deleteAt)(Vector_int *vector, int index);
+    void (*deleteBegin)(Vector_int *vector);
+    void (*resize)(Vector_int *vector, int operation);
+    int (*isEmpty)(Vector_int *vector);
 
-    void (*displayValues)();
+    void (*displayValues)(Vector_int *vector);
 } Vector_int;
 
 /**Returns the first index containing the value*/
@@ -235,7 +235,7 @@ int main(int argc, char const *argv[])
     newVec->insert(newVec, 4);
     newVec->insert(newVec, 6);
     newVec->displayValues(newVec);
-
+    
     insert(vec1, 333);
     displayValues(vec1);
     deleteBegin(vec1);
