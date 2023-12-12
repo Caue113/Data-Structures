@@ -1,0 +1,3 @@
+1. Find a peak element which is not smaller than its neighbours. Level: 1 (See at [GeeksForGeeks](https://www.geeksforgeeks.org/find-a-peak-in-a-given-array/));
+2. Find the minimum (or maximum) element of an array. Level: 1 (See at [GeeksForGeeks](https://www.geeksforgeeks.org/program-find-minimum-maximum-element-array/));
+3. Reverse an array or string. Level: 1 (See at [GeeksForGeeks](https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/));
