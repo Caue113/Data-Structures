@@ -1,6 +1,9 @@
+# For Exercises
+- Create a .h file for each different data structure so it can be used always when needed
+
 # Array (Vector)
 - Ordenação
-- Exercicio Linked List
+- Exercicio array
 
 # Linked List
 - Ordenação

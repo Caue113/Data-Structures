@@ -50,5 +50,6 @@ int main(int argc, char const *argv[])
     printf("is arr1 equal to arr2 - %d\n", expectsAllToBeEqual(arr, arrLen1, arr3, arrLen1));
     printf("sizeof arr %d, sizeof *arr %d, sizeof[0] %d, *sizeof[0] %d\n", sizeof(arr), sizeof(&arr), sizeof(arr[0]), sizeof(&pArr));
     printf("sizeof arr %d", sizeof(arr)/sizeof(arr[0]));
+
     return 0;
 }

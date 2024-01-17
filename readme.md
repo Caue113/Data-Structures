@@ -31,7 +31,7 @@ Inside them, different files will be found, such as:
 
 ## C Files
 
-With C files ``(.c)`` you'll need a compiler to compile it as an executable (``.exe``). I used GCC.
+With C files ``(.c)`` you'll need a compiler to compile it as an executable (``.exe``). This is to prevent any kind of issues with .exe programs. The one I used is GCC.
 
 To edit and test yourself, do the following:
 
