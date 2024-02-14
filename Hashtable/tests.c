@@ -18,23 +18,6 @@ int sumAsciiValuesFromString(char *string, int length){
     return sum;
 }
 
-/* 
-typedef struct Array_string{
-    int length;
-    char string[];
-} Array_string;
-
-Array_string *newArrayString(char stringData[], int length){
-    Array_string *arrStr = malloc(sizeof(Array_string));
-    arrStr->length = length;
-    strcpy(stringData, arrStr->string);
-    return arrStr;
-}
-
-void destructArrayString(Array_string *ptrArrayString){
-    free(ptrArrayString);
-}
-*/
 
 /**
  * @return index of table
@@ -50,13 +33,6 @@ int hashFunction(char *input, int length){
 int main(int argc, char const *argv[])
 {
     char* hashTable[100];
-    /* char tempData[] = "myDAta";
-    Array_string *arrStr1 = newArrayString(tempData, 7); */
-    /* Array_string *arrStr1 = newArrayString("MyData", 7); */
-
-    /* printf("test length: %d\t data: %c\n", arrStr1->length, arrStr1->string); */
-
-    /* destructArrayString(arrStr1); */
 
     const int dataSize = 4;
     char *inputs[] = {"abc", "zzz", "dff", "bca"};
