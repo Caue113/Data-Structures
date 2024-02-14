@@ -49,7 +49,7 @@ int hashFunction(char *input, int length){
 
 int main(int argc, char const *argv[])
 {
-    int* hashTable[100];
+    char* hashTable[100];
     /* char tempData[] = "myDAta";
     Array_string *arrStr1 = newArrayString(tempData, 7); */
     /* Array_string *arrStr1 = newArrayString("MyData", 7); */
@@ -59,19 +59,8 @@ int main(int argc, char const *argv[])
     /* destructArrayString(arrStr1); */
 
     const int dataSize = 4;
-    char *inputs[dataSize];
-
-    char input1[] = "abc";
-    char input2[] = "zzz";
-    char input3[] = "dff";
-    char input4[] = "bca";
-
-    inputs[0] = &input1;
-    inputs[1] = &input2;
-    inputs[2] = &input3;
-    inputs[3] = &input4;
-
-
+    char *inputs[] = {"abc", "zzz", "dff", "bca"};
+    
     //Using algorigthm 1 - Collisions happen on same characters in different positions
     for (size_t i = 0; i < dataSize; i++)
     {
