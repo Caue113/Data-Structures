@@ -42,7 +42,7 @@ typedef struct hashtable_str{
     int size;
     hashentry_str **entries;
 
-    int (*hash)(char *input);
+    int (*hash)(int size, char *input);
     void (*add)(struct hashtable_str *hashtable, char *input);
     int (*exists)(struct hashtable_str *hashtable, int key);
 
@@ -78,9 +78,7 @@ int sumAsciiValuesFromString(char *string){
  * Does not handle collisions whatsoever
  * @return index of table
 */
-int hashFunction(char *input){
-    int size = 25;
-
+int hashFunction(int size, char *input){
     int sum = sumAsciiValuesFromString(input);
     if(sum == -1){
         printf("[HashFunction] Unknow Error!\n");
@@ -100,23 +98,22 @@ int hashtable_str_exists(hashtable_str *hashtable, int key){
 }
 
 void hashtable_str_add(hashtable_str *hashtable, char *value){
-    int key = hashFunction(value);
+    int key = hashFunction(hashtable->size, value);
+    int initialKey = key;
 
-    if(hashtable->exists(hashtable, key) == 0){
-        hashentry_str *entry = create_hashentry_str(key, value);
-        hashtable->entries[key]->key = key;
-        hashtable->entries[key]->value = value;
-    }
-    else{
-        while(hashtable->exists(hashtable, key) == 1){
-            key += 1;
+    while(hashtable->exists(hashtable, key) == 1){
+        key++;
+        key %= hashtable->size;
+
+        if(key == initialKey){
+            printf("[hastable_add] No space avaible\n");
+            return;
         }
-
-        //if all go right
-        hashentry_str *entry = create_hashentry_str(key, value);
-        hashtable->entries[key]->key = key;
-        hashtable->entries[key]->value = value;
     }
+
+    hashentry_str *entry = create_hashentry_str(key, value);
+    hashtable->entries[key]->key = key;
+    hashtable->entries[key]->value = value;
 }
 
 //Get the value from the table
@@ -136,7 +133,7 @@ char *hasthable_str_get_value(hashtable_str *hashtable, int key){
  * @return {int} key or -1 if not exists
 */
 int hasthable_str_get_key(hashtable_str *hashtable, char *value){
-    int key = hashtable->hash(value);
+    int key = hashtable->hash(hashtable->size, value);
     int initialKey = key;
 
     if(hashtable->exists(hashtable, key) == 1){
@@ -177,7 +174,7 @@ void hasthable_str_remove_key(hashtable_str *hashtable, int key){
  * If you want to directly remove a key, see: hashtable_str_remove_key
 */
 void hasthable_str_remove_value(hashtable_str *hashtable, char *value){
-    int key = hashtable->hash(value);
+    int key = hashtable->hash(hashtable->size, value);
 
     if(hashtable->exists(hashtable, key) == 1){
         while (hashtable->entries[key]->value != value && key < hashtable->size)
@@ -205,6 +202,7 @@ void hashtable_str_transverse(hashtable_str *hashtable){
     {
         printf("%d\t|%s\n", hashtable->entries[i]->key, hashtable->entries[i]->value);
     }
+    printf("\n");
 }
 
 hashtable_str *newHastable_str(int size){
@@ -248,29 +246,44 @@ void destructHastable_str(hashtable_str *ptrHastTable_str){
 int main(int argc, char const *argv[])
 {
 
-    int HASHTABLE_SIZE = 25;
+    int HASHTABLE_SIZE = 6;
     char myText[] = {"abcoijjid"};
     char myText2[] = {"ola"};
     char myText3[] = {"alo"};   //Will collide with myText2
     char myText4[] = {"lao"};   //Will collide with myText3
     char myText5[] = {"loa"};   //Will collide with myText4
+    char myText6[] = {"oal"};   //Will collide with myText5
+    char myText7[] = {"myText"};   //Will collide with myText6. For table size < 6 expects to NOT be inserted
 
     hashtable_str *table = newHastable_str(HASHTABLE_SIZE);
     
     table->add(table, myText);
+    
+    table->transverse(table);
 
-    printf("Exists: %d\n", hashtable_str_exists(table, table->hash(myText2)));  //Value hasn't been added
-    table->add(table, myText2);                                                 //Collision found: Expectrs linear probing
-    printf("Exists: %d\n", hashtable_str_exists(table, table->hash(myText3)));  //Different key added
-
-
+    table->add(table, myText2); //Collision found: Expectrs linear probing
     table->add(table, myText3); //collision  
     table->add(table, myText4); //Collision
     table->add(table, myText5); //Collision
+    table->add(table, myText6); //Collision
+
+    table->transverse(table);   //Filled up
+
+    table->add(table, myText6); //Collision + reached limit --> edge case
+
+    table->transverse(table);   //Must show same output from last transverse
+
+    table->remove_value(table, myText3);
+    table->add(table, myText7); //Should allow insertion
+    
+    table->transverse(table);
+
+    table->remove_key(table, table->hash(table->size, myText7));
 
     table->transverse(table);
 
-    table->remove_value(table, myText3);
+    table->remove_key(table, table->hash(table->size, myText4));    //Has been linear probbed, remove must find it by cycling
+    
     table->transverse(table);
     
     destructHastable_str(table);    
