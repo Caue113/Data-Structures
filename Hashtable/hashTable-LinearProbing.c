@@ -53,8 +53,6 @@ typedef struct hashtable_str{
     void (*remove_value)(struct hashtable_str *hashtable, char *value);
 
     void (*transverse)(struct hashtable_str *hashtable);
-
-    char *strings[50];
 } hashtable_str;
 
 int sumAsciiValuesFromString(char *string){
@@ -90,6 +88,9 @@ int hashFunction(char *input){
     return sum % size;
 }
 
+/**
+ * Checks if a key pair exists in hashtable
+*/
 int hashtable_str_exists(hashtable_str *hashtable, int key){
     if(hashtable->entries[key]->value != NULL){
         return 1;
@@ -162,7 +163,7 @@ int hasthable_str_get_key(hashtable_str *hashtable, char *value){
 /**
  * Removes a key association from the table
  * 
- * If you want to remove a value from table, see @see hashtable_str_remove_value
+ * If you want to remove a value from table, see: hashtable_str_remove_value
 */
 void hasthable_str_remove_key(hashtable_str *hashtable, int key){
     if(hashtable->exists(hashtable, key) == 1){        
@@ -170,6 +171,11 @@ void hasthable_str_remove_key(hashtable_str *hashtable, int key){
     }
 }
 
+/**
+ * Removes a value in the hashtable
+ * 
+ * If you want to directly remove a key, see: hashtable_str_remove_key
+*/
 void hasthable_str_remove_value(hashtable_str *hashtable, char *value){
     int key = hashtable->hash(value);
 
@@ -186,6 +192,9 @@ void hasthable_str_remove_value(hashtable_str *hashtable, char *value){
     }
 }
 
+/**
+ * Transverses and prints the hashtable in (Key, Value) order
+*/
 void hashtable_str_transverse(hashtable_str *hashtable){
     if(!hashtable){
         printf("[hashtable_transverse] No Hastable found");
@@ -202,10 +211,8 @@ hashtable_str *newHastable_str(int size){
     hashtable_str *hashtable = malloc(sizeof(hashtable_str));
     hashentry_str **entries = malloc(sizeof(hashentry_str) * size);
     
-    //Initialize all to null
     for (size_t i = 0; i < size; i++)
     {
-        //entries[i] = create_hashentry_str(i, NULL);
         entries[i] = create_hashentry_str(i, NULL);
     }
     
@@ -229,7 +236,6 @@ hashtable_str *newHastable_str(int size){
 
 
 void destructHastable_str(hashtable_str *ptrHastTable_str){
-    //All created instances
     for (size_t i = 0; i < ptrHastTable_str->size; i++)
     {
         destroy_hashentry_str(ptrHastTable_str->entries[i]);
