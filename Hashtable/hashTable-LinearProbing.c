@@ -282,7 +282,7 @@ int main(int argc, char const *argv[])
 
     table->transverse(table);
 
-    table->remove_key(table, table->hash(table->size, myText4));    //Has been linear probbed, remove must find it by cycling
+    table->remove_value(table, myText4);    //Has been linear probbed, remove must find it by cycling
     
     table->transverse(table);
     
