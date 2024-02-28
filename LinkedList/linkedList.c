@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+
+#include "linked_list.h"
 /*
 This linked list cab be built in two ways, simpler with only 1 typedef, and more complex, with linkedList being composite of nodes.
 
@@ -13,22 +15,15 @@ Sadly for now, you always must reference outer functions which linkedList (and s
 
 */
 
+typedef struct node node;
 
-typedef struct node{
-    int data;
-    struct node* next;
-} node;
-
-typedef struct linkedList{
-    node* head;
-    node* tail;
-} linkedList;
+typedef struct linkedList linkedList;
 
 
 
-void print_ll(linkedList* addr){
+void ll_print(linkedList* addr){
     if(!addr->head){
-        printf("[print_ll]Linked List is Empty (NULL head)\n");
+        printf("[ll_print]Linked List is Empty (NULL head)\n");
     }
     else{
         printf("Linked List Head: %p | Data: ", addr->head);
@@ -69,8 +64,8 @@ void transverse_nodes(node* addr){
  * Given a LinkedList, tranverses it entirely from the head until the end.
  * Works similarly to "transverse_nodes"
 */
-void transverse_ll(linkedList* addr){
-    printf("[transverse_ll] Invoked!!\n");
+void ll_transverse(linkedList* addr){
+    printf("[ll_transverse] Invoked!!\n");
 
     if(addr->head == NULL){
         printf("This linkedList is Empty\n");
@@ -234,12 +229,12 @@ int main(int argc, char const *argv[])
 
     printf("\n\n");
 
-    print_ll(&ll);
+    ll_print(&ll);
     print_node(&d1);
     print_node(&d2);
     print_node(d1.next);
 
-    transverse_ll(&ll); //Should print all data up here again
+    ll_transverse(&ll); //Should print all data up here again
 
     printf("\n|\t\t|");
     printf("\n|\t\t|");
@@ -257,9 +252,9 @@ int main(int argc, char const *argv[])
         linkedList ll_2 = {NULL};
 
         /* linkedList *ptr_ll_3 = malloc(sizeof(linkedList)); */
-        print_ll(&ll_1);
-        print_ll(&ll_2);
-        /* print_ll(ptr_ll_3); */
+        ll_print(&ll_1);
+        ll_print(&ll_2);
+        /* ll_print(ptr_ll_3); */
         
 
         node n1 = {1, NULL};
@@ -271,33 +266,33 @@ int main(int argc, char const *argv[])
 
         
         ll_insert(&ll_1, &n1);  //Should create node at head
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_insert(&ll_1, &n3);  //Push normally
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_insert_begin(&ll_1, &n2);  //Substituite n1 with n2 as head
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_insert(&ll_1, &n6);  
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_insert_before(&ll_1, 2222, &n5); //Should be placed before n6. E.g: etc, 111111, 2222
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_remove_at(&ll_1, 2); //Should remove n3
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_remove(&ll_1);       //Should remove n6 (2222);
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         printf("%p, %d", ll_1.tail, ll_1.tail->data);
         ll_remove(&ll_1);       
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_remove(&ll_1);       
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_remove(&ll_1);       
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
         ll_remove(&ll_1);          //Should throw exception and not run
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
 
         /* print_node(&n1); */
         /* 
         linkedList ll_rem;
-        print_ll(&ll_rem);
+        ll_print(&ll_rem);
         node nn1 = {2, NULL};
         node nn2 = {4, NULL};
         node nn3 = {8, NULL};
@@ -314,25 +309,25 @@ int main(int argc, char const *argv[])
         ll_insert(&ll_rem, &nn6);
         ll_insert(&ll_rem, &nn7);
 
-        transverse_ll(&ll_rem);
+        ll_transverse(&ll_rem);
 
         printf("ptr: %p data %d", ll_rem.head, ll_rem.head->data);
  */
 /* 
         //Test 1 - Transverse empty linked list. Should return empty list.
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
     
         //Test 2 - For an empty linked list, attach node into head
         ll_insert(&ll_1, &n1);
         ll_insert(&ll_1, &n4);
 
-        transverse_ll(&ll_1);
+        ll_transverse(&ll_1);
 
         ll_2.head = &n3;
         ll_insert(&ll_2, &n6);
         ll_insert(&ll_2, &n2);
 
-        transverse_ll(&ll_2);
+        ll_transverse(&ll_2);
  */
     /* } */
     return 0;
