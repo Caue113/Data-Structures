@@ -10,7 +10,7 @@ typedef struct Queue {
 
 
 Queue *newQueue(int length){
-    Queue *queue = malloc(sizeof(queue));
+    Queue *queue = malloc(sizeof(Queue));
     queue->values = malloc(sizeof(int) * length);
     queue->length = length;
     queue->lastIdx = 0;
