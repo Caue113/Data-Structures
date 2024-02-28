@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-#include "linked_list.h"
+#include "linked_list_interface.h"
 /*
 This linked list cab be built in two ways, simpler with only 1 typedef, and more complex, with linkedList being composite of nodes.
 
