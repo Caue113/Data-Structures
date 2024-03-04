@@ -32,6 +32,11 @@ struct linkedlist_double *ll_double_create(struct linkedlist_node_double *head, 
     return ll;
 }
 
+void ll_double_node_print(struct linkedlist_node_double *node){
+    printf("Node: %p\n", node);
+    printf("\tPrev: %p | Next %p\n", node->previous, node->next);
+}
+
 /**
  * Free every node that comes next to the given node.
  * 
@@ -51,16 +56,30 @@ void ll_double_insert(struct linkedlist_double *ll, struct linkedlist_node_doubl
     }
 
     struct linkedlist_node_double *currNode = ll->head;
+    struct linkedlist_node_double *prevNode = NULL;
 
+    while (currNode->next)
+    {
+        prevNode = currNode;
+        currNode = currNode->next;
+    }
+    currNode->next = newNode;
+    newNode->previous = currNode;
+}
+
+void ll_double_remove(struct linkedlist_double *ll){
+    if(!ll->head){
+        return;
+    }
+    struct linkedlist_node_double *currNode = ll->head;
+
+    //update to use tail later
     while (currNode->next)
     {
         currNode = currNode->next;
     }
-    
-    currNode->next = newNode;
-}
-void ll_double_remove(struct linkedlist_double *node){
-
+    currNode->previous->next = NULL;
+    currNode->previous = NULL;
 }
 
 void ll_double_transverse(struct linkedlist_double *ll){
@@ -68,7 +87,7 @@ void ll_double_transverse(struct linkedlist_double *ll){
 
     while (currNode)
     {
-        printf("Node: %p\n", currNode);
+        ll_double_node_print(currNode);
         currNode = currNode->next;
     }    
 }
