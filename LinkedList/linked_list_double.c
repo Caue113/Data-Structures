@@ -20,15 +20,21 @@ int main(int argc, char const *argv[])
 
     linked_list *ll = ll_double_create(NULL, NULL);
 
+    linked_list *ll_one_node = ll_double_create(NULL, NULL);
+
     // Insertion
     ll_double_insert(ll, n1);
     ll_double_insert(ll, n2);
     ll_double_insert(ll, n3);
     ll_double_insert(ll, n4);
 
+    ll_double_insert(ll_one_node, n5);
+
     // Transverses
     ll_double_transverse(ll);
-    ll_double_transverse_reverse(ll->head);
+    ll_double_transverse_reverse(ll);
+
+    printf("\n");
 
     // Delete
     ll_double_remove(ll);
@@ -40,6 +46,8 @@ int main(int argc, char const *argv[])
 
     //Clear memory
     free(n4);
-    ll_double_destroy(ll->head);
+    free(n6);   //Unused
+    ll_double_destroy(ll);
+    ll_double_destroy(ll_one_node);    
     return 0;
 }

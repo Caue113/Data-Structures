@@ -42,11 +42,20 @@ void ll_double_node_print(struct linkedlist_node_double *node){
  * 
  * For clearing the entire linked list, provide head as starting point
 */
-void ll_double_destroy(struct linkedlist_node_double *node){
-    if(node){
-        ll_double_destroy(node->next);
-        free(node);
+void ll_double_destroy(struct linkedlist_double *ll){
+    if(!ll->tail){
+        return;
     }
+
+    struct linkedlist_node_double *currNode = ll->tail;
+
+    while (currNode->previous)
+    {
+        currNode = currNode->previous;
+        free(currNode->next);
+    }
+    free(currNode);
+    free(ll);
 }
 
 void ll_double_insert(struct linkedlist_double *ll, struct linkedlist_node_double *newNode){
@@ -81,9 +90,11 @@ void ll_double_transverse(struct linkedlist_double *ll){
     }    
 }
 
-void ll_double_transverse_reverse(struct linkedlist_node_double *node){
-    if(node){
-        ll_double_transverse_reverse(node->next);
-        printf("Node: %p\n", node);
+void ll_double_transverse_reverse(struct linkedlist_double *ll){
+    struct linkedlist_node_double *currNode = ll->tail;
+    while (currNode)
+    {
+        printf("Node: %p\n", currNode);
+        currNode = currNode->previous;
     }
 }
