@@ -52,19 +52,25 @@ void ll_double_destroy(struct linkedlist_node_double *node){
 void ll_double_insert(struct linkedlist_double *ll, struct linkedlist_node_double *newNode){
     if(!ll->head){
         ll->head = newNode;
+        ll->tail = newNode;
         return;
     }
 
-    struct linkedlist_node_double *currNode = ll->head;
-    struct linkedlist_node_double *prevNode = NULL;
+    /* struct linkedlist_node_double *currNode = ll->tail;
+    struct linkedlist_node_double *prevNode = ll->tail->previous; */
 
-    while (currNode->next)
+    /* while (currNode->next)
     {
         prevNode = currNode;
         currNode = currNode->next;
     }
     currNode->next = newNode;
     newNode->previous = currNode;
+    */
+    ll->tail->next = newNode;
+    newNode->previous = ll->tail;
+    ll->tail = newNode;
+
 }
 
 void ll_double_remove(struct linkedlist_double *ll){
@@ -78,6 +84,8 @@ void ll_double_remove(struct linkedlist_double *ll){
     {
         currNode = currNode->next;
     }
+
+    ll->tail = currNode->previous;
     currNode->previous->next = NULL;
     currNode->previous = NULL;
 }
