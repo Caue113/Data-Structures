@@ -56,38 +56,19 @@ void ll_double_insert(struct linkedlist_double *ll, struct linkedlist_node_doubl
         return;
     }
 
-    /* struct linkedlist_node_double *currNode = ll->tail;
-    struct linkedlist_node_double *prevNode = ll->tail->previous; */
-
-    /* while (currNode->next)
-    {
-        prevNode = currNode;
-        currNode = currNode->next;
-    }
-    currNode->next = newNode;
-    newNode->previous = currNode;
-    */
     ll->tail->next = newNode;
     newNode->previous = ll->tail;
     ll->tail = newNode;
-
 }
 
 void ll_double_remove(struct linkedlist_double *ll){
     if(!ll->head){
         return;
     }
-    struct linkedlist_node_double *currNode = ll->head;
 
-    //update to use tail later
-    while (currNode->next)
-    {
-        currNode = currNode->next;
-    }
-
-    ll->tail = currNode->previous;
-    currNode->previous->next = NULL;
-    currNode->previous = NULL;
+    ll->tail = ll->tail->previous;
+    ll->tail->next->previous = NULL;
+    ll->tail->next = NULL;
 }
 
 void ll_double_transverse(struct linkedlist_double *ll){
