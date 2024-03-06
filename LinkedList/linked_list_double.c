@@ -11,12 +11,17 @@ int main(int argc, char const *argv[])
 {
     
     //Node creations
-    node *n1 = ll_create_node_double(1, NULL, NULL);
-    node *n2 = ll_create_node_double(2, NULL, NULL);
-    node *n3 = ll_create_node_double(3, NULL, NULL);
-    node *n4 = ll_create_node_double(7, NULL, NULL);
-    node *n5 = ll_create_node_double(55, NULL, NULL);
-    node *n6 = ll_create_node_double(1001, NULL, NULL);
+    node *n1 = ll_double_node_create(1, NULL, NULL);
+    node *n2 = ll_double_node_create(2, NULL, NULL);
+    node *n3 = ll_double_node_create(3, NULL, NULL);
+    node *n4 = ll_double_node_create(7, NULL, NULL);
+    node *n5 = ll_double_node_create(55, NULL, NULL);
+    node *n6 = ll_double_node_create(1001, NULL, NULL);
+
+
+
+
+    
 
     linked_list *ll = ll_double_create(NULL, NULL);
 
@@ -45,8 +50,9 @@ int main(int argc, char const *argv[])
 
 
     //Clear memory
-    free(n4);
-    free(n6);   //Unused
+    ll_double_node_destroy(n4);
+    ll_double_node_destroy(n6); //Unused
+
     ll_double_destroy(ll);
     ll_double_destroy(ll_one_node);    
     return 0;

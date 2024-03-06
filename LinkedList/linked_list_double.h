@@ -12,13 +12,24 @@ struct linkedlist_double{
     struct linkedlist_node_double *tail;
 };
 
-struct linkedlist_node_double *ll_create_node_double(int data, struct linkedlist_node_double *next, struct linkedlist_node_double *previous){
+struct linkedlist_node_double *ll_double_node_create(int data, struct linkedlist_node_double *next, struct linkedlist_node_double *previous){
     struct linkedlist_node_double *node = malloc(sizeof(struct linkedlist_node_double));
     node->data = data ? data : 0;
     node->next = next ? next : NULL;
     node->previous = previous ? previous : NULL;
 
     return node;
+}
+
+void ll_double_node_destroy(struct linkedlist_node_double *node){
+    node->next = NULL;
+    node->previous = NULL;
+    free(node);
+}
+
+void ll_double_node_print(struct linkedlist_node_double *node){
+    printf("Node: %p\n", node);
+    printf("\tPrev: %p | Next %p\n", node->previous, node->next);
 }
 
 struct linkedlist_double *ll_double_create(struct linkedlist_node_double *head, struct linkedlist_node_double *tail){
@@ -30,11 +41,6 @@ struct linkedlist_double *ll_double_create(struct linkedlist_node_double *head, 
     };
 
     return ll;
-}
-
-void ll_double_node_print(struct linkedlist_node_double *node){
-    printf("Node: %p\n", node);
-    printf("\tPrev: %p | Next %p\n", node->previous, node->next);
 }
 
 /**
@@ -52,10 +58,12 @@ void ll_double_destroy(struct linkedlist_double *ll){
     while (currNode->previous)
     {
         currNode = currNode->previous;
-        free(currNode->next);
+        ll_double_node_destroy(currNode->next);
     }
-    free(currNode);
+    ll_double_node_destroy(currNode);
     free(ll);
+    ll->head = NULL;
+    ll->tail = NULL;
 }
 
 void ll_double_insert(struct linkedlist_double *ll, struct linkedlist_node_double *newNode){
