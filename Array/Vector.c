@@ -19,7 +19,7 @@ typedef struct Vector_int{
 } Vector_int;
 
 /**Returns the first index containing the value*/
-int find(Vector_int *vector, int value){
+int Vector_int_find(Vector_int *vector, int value){
     for (size_t i = 0; i < vector->length; i++){
         if(vector->values[i] == value){
             return i;
@@ -33,7 +33,7 @@ int find(Vector_int *vector, int value){
  * @param operation 1 - increase. 0 - decrease
  * @todo Study increasing factor
 */
-void resize(Vector_int *vector, int operation){ 
+void Vector_int_resize(Vector_int *vector, int operation){ 
     int newCapacity = 0;
 
     if(operation == 1){
@@ -55,7 +55,7 @@ void resize(Vector_int *vector, int operation){
     vector->capacity = newCapacity;
 }
 
-void insert(Vector_int *vector, int value){
+void Vector_int_insert(Vector_int *vector, int value){
     vector->values[vector->length] = value;
     vector->length++;
 
@@ -68,7 +68,7 @@ void insert(Vector_int *vector, int value){
 /**
  * @param index 0 based index access
 */
-void insertAt(Vector_int *vector, int index, int value){
+void Vector_int_insertAt(Vector_int *vector, int index, int value){
     
     //We use length instead of capacity due to unknown behavior between indexes (fill with 0? NULL?)
     if(index > vector->length - 1 || index < 0){
@@ -91,7 +91,7 @@ void insertAt(Vector_int *vector, int index, int value){
 /**
  * 
 */
-void insertBegin(Vector_int *vector, int value){
+void Vector_int_insertBegin(Vector_int *vector, int value){
     vector->length++;
     for (size_t i = vector->length; i > 0; i--)
     {
@@ -104,7 +104,7 @@ void insertBegin(Vector_int *vector, int value){
     }
 }
 
-void delete(Vector_int *vector){
+void Vector_int_delete(Vector_int *vector){
     if(vector->length == 0){
         printf("Error - Vector is Empty\n");
         return;
@@ -121,7 +121,7 @@ void delete(Vector_int *vector){
 /**
  * 
 */
-void deleteAt(Vector_int *vector, int index){
+void Vector_int_deleteAt(Vector_int *vector, int index){
     if(vector->length == 0){
         printf("Error - Vector is Empty\n");
         return;
@@ -142,7 +142,7 @@ void deleteAt(Vector_int *vector, int index){
 /**
  *
 */
-void deleteBegin(Vector_int *vector){
+void Vector_int_deleteBegin(Vector_int *vector){
     if(vector->length == 0){
         printf("Error - Vector is Empty\n");
         return;
@@ -160,14 +160,14 @@ void deleteBegin(Vector_int *vector){
 /**
  * @return 1 - true; 0 false
 */
-int isEmpty(Vector_int *vector){
+int Vector_int_isEmpty(Vector_int *vector){
     if(vector->length == 0){
         return 1;
     }
     return 0;
 }
 
-void displayValues(Vector_int *vector){
+void Vector_int_display_values(Vector_int *vector){
     printf("Printing Vector\n");
 
     printf("Length: \t%d\n", vector->length);
@@ -190,7 +190,7 @@ void displayValues(Vector_int *vector){
 /**
  * 
 */
-Vector_int *newVector(int capacity){
+Vector_int *Vector_int_create(int capacity){
     /* Vector_int *vec = malloc(sizeof(Vector_int));     */
     if(capacity < 1){
         printf("Error - CapacityOutOfBounds\n");
@@ -216,16 +216,16 @@ Vector_int *newVector(int capacity){
             .length = 0,
             .capacity = newCapacity,
 
-            .find = find,
-            .insert = insert,
-            .insertAt = insertAt,
-            .insertBegin = insertBegin,
-            .delete = delete,
-            .deleteAt = deleteAt,
-            .deleteBegin = deleteBegin,
-            .resize = resize,
-            .displayValues = displayValues,
-            .isEmpty = isEmpty,
+            .find = Vector_int_find,
+            .insert = Vector_int_insert,
+            .insertAt = Vector_int_insertAt,
+            .insertBegin = Vector_int_insertBegin,
+            .delete = Vector_int_delete,
+            .deleteAt = Vector_int_deleteAt,
+            .deleteBegin = Vector_int_deleteBegin,
+            .resize = Vector_int_resize,
+            .displayValues = Vector_int_display_values,
+            .isEmpty = Vector_int_isEmpty,
         };
 
         return vec;
@@ -233,7 +233,7 @@ Vector_int *newVector(int capacity){
     
 }
 
-void destructVector(Vector_int *vector){
+void Vector_int_destroy(Vector_int *vector){
     free(vector->values);
     free(vector);
 }
@@ -244,12 +244,12 @@ int main(int argc, char const *argv[])
     printf("## Description: vector capacity to be the next base 2^n number\n");
 
     printf("\n--- Expects {2, 4, 4, 8, 16, 32}\n");
-    Vector_int *vec1 = newVector(1);
-    Vector_int *vec2 = newVector(2);
-    Vector_int *vec3 = newVector(3);
-    Vector_int *vec4 = newVector(5);
-    Vector_int *vec5 = newVector(11);
-    Vector_int *vec6 = newVector(27);
+    Vector_int *vec1 = Vector_int_create(1);
+    Vector_int *vec2 = Vector_int_create(2);
+    Vector_int *vec3 = Vector_int_create(3);
+    Vector_int *vec4 = Vector_int_create(5);
+    Vector_int *vec5 = Vector_int_create(11);
+    Vector_int *vec6 = Vector_int_create(27);
 
     vec1->displayValues(vec1);
     vec2->displayValues(vec2);
@@ -263,45 +263,45 @@ int main(int argc, char const *argv[])
     printf("# Test switch 2 - Insertion and increase resizing\n");
     printf("## Expects Capacity to be [2, 2, 4, 8]\n");
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Insert\n");
-    insert(vec1, 1);
+    Vector_int_insert(vec1, 1);
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Insert\n");
-    insert(vec1, 2);
+    Vector_int_insert(vec1, 2);
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Insert\n");
-    insert(vec1, 3);
-    displayValues(vec1);
+    Vector_int_insert(vec1, 3);
+    Vector_int_display_values(vec1);
 
     printf("\n===========\n\n");
 
     printf("# Test switch 3 - Deletion and decrease resizing\n");
     printf("## Expects Capacity to be [8, 6, 4, 2]\n");
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Delete\n");
-    delete(vec1);
+    Vector_int_delete(vec1);
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Delete\n");
-    delete(vec1);
+    Vector_int_delete(vec1);
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Delete\n");
-    delete(vec1);
+    Vector_int_delete(vec1);
 
-    displayValues(vec1);
+    Vector_int_display_values(vec1);
     printf("> Delete\n");
-    delete(vec1);
+    Vector_int_delete(vec1);
 
-    destructVector(vec1);
-    destructVector(vec2);
-    destructVector(vec3);
-    destructVector(vec4);
-    destructVector(vec5);
-    destructVector(vec6);
+    Vector_int_destroy(vec1);
+    Vector_int_destroy(vec2);
+    Vector_int_destroy(vec3);
+    Vector_int_destroy(vec4);
+    Vector_int_destroy(vec5);
+    Vector_int_destroy(vec6);
     return 0;
 }
