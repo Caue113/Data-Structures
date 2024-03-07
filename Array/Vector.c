@@ -276,6 +276,26 @@ int main(int argc, char const *argv[])
     insert(vec1, 3);
     displayValues(vec1);
 
+    printf("\n===========\n\n");
+
+    printf("# Test switch 3 - Deletion and decrease resizing\n");
+    printf("## Expects Capacity to be [8, 6, 4, 2]\n");
+
+    displayValues(vec1);
+    printf("> Delete\n");
+    delete(vec1);
+
+    displayValues(vec1);
+    printf("> Delete\n");
+    delete(vec1);
+
+    displayValues(vec1);
+    printf("> Delete\n");
+    delete(vec1);
+
+    displayValues(vec1);
+    printf("> Delete\n");
+    delete(vec1);
 
     destructVector(vec1);
     destructVector(vec2);
