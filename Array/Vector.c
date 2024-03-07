@@ -5,17 +5,17 @@ typedef struct Vector_int{
     int *values;
     int length;     //N. elements
     int capacity;
-    int (*find)(Vector_int *vector, int value);
-    void (*insert)(Vector_int *vector, int value);
-    void (*insertAt)(Vector_int *vector, int index, int value);
-    void (*insertBegin)(Vector_int *vector, int value);
-    void (*delete)(Vector_int *vector);
-    void (*deleteAt)(Vector_int *vector, int index);
-    void (*deleteBegin)(Vector_int *vector);
-    void (*resize)(Vector_int *vector, int operation);
-    int (*isEmpty)(Vector_int *vector);
+    int (*find)(struct Vector_int *vector, int value);
+    void (*insert)(struct Vector_int *vector, int value);
+    void (*insertAt)(struct Vector_int *vector, int index, int value);
+    void (*insertBegin)(struct Vector_int *vector, int value);
+    void (*delete)(struct Vector_int *vector);
+    void (*deleteAt)(struct Vector_int *vector, int index);
+    void (*deleteBegin)(struct Vector_int *vector);
+    void (*resize)(struct Vector_int *vector, int operation);
+    int (*isEmpty)(struct Vector_int *vector);
 
-    void (*displayValues)(Vector_int *vector);
+    void (*displayValues)(struct Vector_int *vector);
 } Vector_int;
 
 /**Returns the first index containing the value*/
@@ -52,12 +52,14 @@ void resize(Vector_int *vector, int operation){
 
     free(vector->values);
     vector->values = newValues;
+    vector->capacity = newCapacity;
 }
 
 void insert(Vector_int *vector, int value){
     vector->values[vector->length] = value;
     vector->length++;
 
+    //The remaining spaces are smaller than 25% threshhold?
     if(vector->capacity - vector->length <= vector->capacity / 4){
         vector->resize(vector, 1);
     }
@@ -197,10 +199,22 @@ Vector_int *newVector(int capacity){
 
         Vector_int *vec = malloc(sizeof(Vector_int));
 
+        //Find capacity closest a base 2^n
+        int newCapacity = 0;
+        int numResizes = 0;
+
+        while (capacity >> numResizes > 0)
+        {
+            numResizes++;
+        }
+
+        newCapacity = 1 << numResizes;  //2^0 * 2^n
+        
+
         *vec = (Vector_int){
             .values = malloc(sizeof(int)*capacity),
             .length = 0,
-            .capacity = capacity * 1.5f,
+            .capacity = newCapacity,
 
             .find = find,
             .insert = insert,
@@ -225,39 +239,49 @@ void destructVector(Vector_int *vector){
 }
 
 int main(int argc, char const *argv[])
-{
-    //Vector_int vecSub = {malloc(sizeof(int)*5), 0, 5*1.5, find, insert, insertAt, insertBegin, delete, deleteAt, deleteBegin, resize, isEmpty, displayValues};
-    
-    Vector_int *newVec = newVector(10);
-    Vector_int *vec1 = newVector(2);
+{   
+    printf("# Test switch 1 - Vector creation\n");
+    printf("## Description: vector capacity to be the next base 2^n number\n");
 
-    newVec->insert(newVec, 1);
-    newVec->insert(newVec, 4);
-    newVec->insert(newVec, 6);
-    newVec->displayValues(newVec);
+    printf("\n--- Expects {2, 4, 4, 8, 16, 32}\n");
+    Vector_int *vec1 = newVector(1);
+    Vector_int *vec2 = newVector(2);
+    Vector_int *vec3 = newVector(3);
+    Vector_int *vec4 = newVector(5);
+    Vector_int *vec5 = newVector(11);
+    Vector_int *vec6 = newVector(27);
+
+    vec1->displayValues(vec1);
+    vec2->displayValues(vec2);
+    vec3->displayValues(vec3);
+    vec4->displayValues(vec4);
+    vec5->displayValues(vec5);
+    vec6->displayValues(vec6);
     
-    insert(vec1, 333);
+    printf("\n===========\n\n");
+
+    printf("# Test switch 2 - Insertion and increase resizing\n");
+    printf("## Expects Capacity to be [2, 2, 4, 8]\n");
+
     displayValues(vec1);
-    deleteBegin(vec1);
-    displayValues(vec1);
-    insert(vec1, 2123);
-    insert(vec1, 11);
-    displayValues(vec1);
-    insertAt(vec1, 1, 9999);
-    displayValues(vec1);
-    deleteAt(vec1, 2);
-    displayValues(vec1);
+    printf("> Insert\n");
     insert(vec1, 1);
+
     displayValues(vec1);
-    insertBegin(vec1, 3434);
+    printf("> Insert\n");
+    insert(vec1, 2);
+
     displayValues(vec1);
-    insertBegin(vec1, 69);
-    insertBegin(vec1, 1337);
+    printf("> Insert\n");
+    insert(vec1, 3);
     displayValues(vec1);
 
 
-
-    destructVector(newVec);
     destructVector(vec1);
+    destructVector(vec2);
+    destructVector(vec3);
+    destructVector(vec4);
+    destructVector(vec5);
+    destructVector(vec6);
     return 0;
 }
