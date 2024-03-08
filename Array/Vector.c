@@ -111,6 +111,7 @@ void Vector_int_delete(Vector_int *vector){
     }
 
     //By simply restricting access, we "reduce" the vector size. Although, the data still exist.
+    //Todo: Clear data (this case: set to null)
     vector->length--;
 
     if(vector->capacity - vector->length >= vector->capacity / 4){
@@ -212,7 +213,7 @@ Vector_int *Vector_int_create(int capacity){
         
 
         *vec = (Vector_int){
-            .values = malloc(sizeof(int)*capacity),
+            .values = malloc(sizeof(int)*newCapacity),
             .length = 0,
             .capacity = newCapacity,
 
