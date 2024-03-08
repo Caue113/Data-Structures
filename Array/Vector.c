@@ -104,14 +104,21 @@ void Vector_int_insertBegin(Vector_int *vector, int value){
     }
 }
 
+/**
+ * Removes the last element of the array.
+ * 
+ * This implementation ERASES the last element by setting the value to NULL.
+*/
+
 void Vector_int_delete(Vector_int *vector){
     if(vector->length == 0){
         printf("Error - Vector is Empty\n");
         return;
     }
-
+    
     //By simply restricting access, we "reduce" the vector size. Although, the data still exist.
     //Todo: Clear data (this case: set to null)
+    vector->values[vector->length-1] = NULL;
     vector->length--;
 
     if(vector->capacity - vector->length >= vector->capacity / 4){
