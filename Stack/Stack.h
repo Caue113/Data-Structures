@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Stack_interface.h"
 #include "../Array/Vector.h"
 
 struct Stack_int {
