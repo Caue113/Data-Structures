@@ -2,78 +2,50 @@
 #include <stdlib.h>
 
 #include "Stack_interface.h"
-#include "../Array/Vector.h"
 
-struct Stack_int {
-    //Interface
+struct Stack_int{
     int *values;
-    int lastElement;
+    int capacity;
     int length;
-
-    //Underlying logic
-    struct Vector_int *vector;
+    int lastElement;
 };
 
-void Stack_int_push(struct Stack_int *stack, int value){
-    stack->vector->insert(stack->vector, value);
-    stack->lastElement = stack->vector->values[stack->vector->length - 1];
-    stack->length = stack->vector->length;
-
-    stack->values = stack->vector->values;  //Alwawys update pointer reference (there is a better wya, though its needed to update Vector logics)
+struct Stack_int *Stack_int_create(int capacity){
+    struct Stack_int *stack = malloc(sizeof(struct Stack_int));
+    *stack = (struct Stack_int){
+        .values = malloc(sizeof(int) * capacity),
+        .capacity = capacity,
+    };
 }
 
-int Stack_int_pop(struct Stack_int *stack){
-    if(stack->lastElement < 1){
-        return NULL;
-    }
-
-    int element = stack->lastElement;
-
-    stack->vector->delete(stack->vector);
-    stack->lastElement = stack->vector->values[stack->vector->length - 1];
-    stack->length = stack->vector->length;
-    
-    stack->values = stack->vector->values;  //Alwawys update pointer reference (there is a better wya, though its needed to update Vector logics)
-
-    return element;
-}
-int Stack_int_peek(struct Stack_int *stack){
-    return stack->lastElement;
+void Stack_int_destroy(struct Stack_int *stack){
+    free(stack->values);
+    free(stack);
 }
 
 int Stack_int_isEmpty(struct Stack_int *stack){
-    return stack->vector->isEmpty(stack->vector);
+    return stack->length == 0;
 }
 
-void Stack_int_display(struct Stack_int *stack){
-    if(!stack){
-        printf("Exception - No Stack Exists\n");
-        return NULL;
+int Stack_int_peek(struct Stack_int *stack){
+    return stack->lastElement;
+}
+int Stack_int_pop(struct Stack_int *stack){
+    if(stack->length < 1){
+        return;
     }
-    printf("Display Stack: %p\n", stack);
-    printf("Is Empty? : %d\n", Stack_int_isEmpty(stack));
-    printf("Values\n");
-    for (size_t i = 0; i < stack->length; i++)
-    {
-        printf("%d\t|\t%d\n", i, stack->values[i]);
+
+    int element = stack->lastElement;
+    stack->length--;
+    stack->lastElement = stack->values[stack->length - 1];
+    return element;
+}
+void Stack_int_push(struct Stack_int *stack, int value){
+    if(stack->length + 1 > stack->capacity){
+        return;
     }
-}
 
-struct Stack_int *Stack_int_create(){
-    struct Stack_int *stack = malloc(sizeof(struct Stack_int));
-    struct Vector_int *vec = Vector_int_create(4);
-
-    *stack = (struct Stack_int){
-        .vector = vec,
-        .values = vec->values,
-        .lastElement = NULL,
-        .length = vec->length,
-    };
-
-    return stack;
-}
-
-void Stack_int_destroy(struct Stack_int *stack){    
-    Vector_int_destroy(stack->vector);
-    free(stack);
+    stack->values[stack->length - 1] = value;
+    stack->lastElement = value;
+    stack->length++;
 }

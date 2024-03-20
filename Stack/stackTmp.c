@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Stack.h"
+#include "Stack_dynamic.h"
 
 typedef struct Stack_int Stack_int;
 
