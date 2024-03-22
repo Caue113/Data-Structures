@@ -30,7 +30,10 @@ int main(int argc, char const *argv[])
     for (size_t i = 0; i < STACK_CAPACITY; i++)
     {
         printf("Stack removed: %d\n", Stack_int_pop(s));
+        printf("Stack last element: %d\n", Stack_int_peek(s));
     }
+
+    printf("Stack last element: %d\n", s->lastElement);
 
     printf("Expects Stack Underflow\n");
     printf("Stack removed?\n");

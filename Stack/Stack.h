@@ -28,7 +28,11 @@ int Stack_int_isEmpty(struct Stack_int *stack){
 }
 
 int Stack_int_peek(struct Stack_int *stack){
-    return stack->lastElement;
+    if(Stack_int_isEmpty(stack)){
+        return NULL;
+    }
+    
+    return stack->values[stack->length - 1];
 }
 int Stack_int_pop(struct Stack_int *stack){
     if(stack->length < 1){
@@ -37,7 +41,7 @@ int Stack_int_pop(struct Stack_int *stack){
 
     int element = stack->lastElement;
     stack->length--;
-    stack->lastElement = stack->values[stack->length - 1];
+    stack->lastElement = Stack_int_peek(stack);
     return element;
 }
 void Stack_int_push(struct Stack_int *stack, int value){
@@ -45,7 +49,7 @@ void Stack_int_push(struct Stack_int *stack, int value){
         return;
     }
 
-    stack->values[stack->length - 1] = value;
-    stack->lastElement = value;
     stack->length++;
+    stack->values[stack->length - 1] = value;
+    stack->lastElement = Stack_int_peek(stack);;
 }
